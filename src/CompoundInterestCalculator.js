@@ -17,8 +17,8 @@ function CompoundInterestCalculator() {
     const totalPeriods = time * compoundFrequency;
     const interestRatePerPeriod = rate / 100 / compoundFrequency;
 
-    let amount = principal;
-    let totalContributed = principal;
+    let amount = parseFloat(principal);
+    let totalContributed = parseFloat(principal);
     let totalInterest = 0;
 
     for (let i = 0; i < totalPeriods; i++) {
@@ -158,7 +158,7 @@ function CompoundInterestCalculator() {
                   display: true,
                   title: {
                     display: true,
-                    text: 'Years',
+                    text: 'Balance per Year',
                     color: '#333',
                     font: {
                       size: 12,
@@ -169,7 +169,7 @@ function CompoundInterestCalculator() {
                   display: true,
                   title: {
                     display: true,
-                    text: 'Amount',
+                    text: 'Total Amount',
                     color: '#333',
                     font: {
                       size: 12,
