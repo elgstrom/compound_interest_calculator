@@ -66,11 +66,10 @@ function CompoundInterestCalculator() {
         return 1;
     }
   };
-
   return (
     <div className="compound-interest-calculator">
       <div className="input-container">
-        <h2 className="calculator-heading">Compound Interest Calculator</h2>
+        <h2 className="calculator-title">Compound Interest Calculator</h2>
         <div className="form-group">
           <label>Principal Amount:</label>
           <input
@@ -80,6 +79,7 @@ function CompoundInterestCalculator() {
             onChange={(e) => setPrincipal(parseFloat(e.target.value))}
           />
         </div>
+        
         <div className="form-group">
           <label>Interest Rate (%):</label>
           <input
@@ -111,6 +111,7 @@ function CompoundInterestCalculator() {
             }
           />
         </div>
+        
         <div className="form-group">
           <label>How often will your interest compound?</label>
           <Select
@@ -141,13 +142,13 @@ function CompoundInterestCalculator() {
         {result && (
           <div className="result-container">
             <p className="result">Your estimated savings: {result.savings}</p>
-            <p className="result">
-              Total amount contributed: {result.contributed}
-            </p>
+            <p className="result">Total amount contributed: {result.contributed}</p>
             <p className="result">Total interest: {result.interest}</p>
           </div>
         )}
+        
       </div>
+      
       <div className="chart-container">
         {chartData && (
           <Line
