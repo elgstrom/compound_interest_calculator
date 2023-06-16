@@ -66,6 +66,7 @@ function CompoundInterestCalculator() {
         return 1;
     }
   };
+
   return (
     <div className="compound-interest-calculator">
       <div className="input-container">
@@ -79,7 +80,6 @@ function CompoundInterestCalculator() {
             onChange={(e) => setPrincipal(parseFloat(e.target.value))}
           />
         </div>
-        
         <div className="form-group">
           <label>Interest Rate (%):</label>
           <input
@@ -111,7 +111,6 @@ function CompoundInterestCalculator() {
             }
           />
         </div>
-        
         <div className="form-group">
           <label>How often will your interest compound?</label>
           <Select
@@ -120,7 +119,9 @@ function CompoundInterestCalculator() {
               { value: 'quarterly', label: 'Quarterly' },
               { value: 'annually', label: 'Annually' },
             ]}
-            onChange={(selectedOption) => console.log(selectedOption)}
+            onChange={(selectedOption) =>
+              console.log(selectedOption)
+            }
           />
         </div>
         <div className="form-group">
@@ -129,9 +130,7 @@ function CompoundInterestCalculator() {
             type="number"
             placeholder="Monthly Contribution"
             value={monthlyContribution}
-            onChange={(e) =>
-              setMonthlyContribution(parseFloat(e.target.value))
-            }
+            onChange={(e) => setMonthlyContribution(parseFloat(e.target.value))}
           />
         </div>
         <div className="button-container">
@@ -139,47 +138,48 @@ function CompoundInterestCalculator() {
             Calculate
           </button>
         </div>
-        {result && (
+      </div>
+      
+      <div className="chart-container">
+      {result && (
           <div className="result-container">
             <p className="result">Your estimated savings: {result.savings}</p>
             <p className="result">Total amount contributed: {result.contributed}</p>
             <p className="result">Total interest: {result.interest}</p>
           </div>
         )}
-        
-      </div>
-      
-      <div className="chart-container">
         {chartData && (
-          <Line
-            data={chartData}
-            options={{
-              scales: {
-                x: {
-                  display: true,
-                  title: {
+          <React.Fragment>
+            <Line
+              data={chartData}
+              options={{
+                scales: {
+                  x: {
                     display: true,
-                    text: 'Balance per Year',
-                    color: '#333',
-                    font: {
-                      size: 12,
+                    title: {
+                      display: true,
+                      text: 'Balance per Year',
+                      color: '#333',
+                      font: {
+                        size: 12,
+                      },
+                    },
+                  },
+                  y: {
+                    display: true,
+                    title: {
+                      display: true,
+                      text: 'Total Amount',
+                      color: '#333',
+                      font: {
+                        size: 12,
+                      },
                     },
                   },
                 },
-                y: {
-                  display: true,
-                  title: {
-                    display: true,
-                    text: 'Total Amount',
-                    color: '#333',
-                    font: {
-                      size: 12,
-                    },
-                  },
-                },
-              },
-            }}
-          />
+              }}
+            />
+          </React.Fragment>
         )}
       </div>
     </div>
