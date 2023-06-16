@@ -1,29 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import './CompoundInterestCalculator.css';
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import logoImage from './logo.jpg';
 
 function CompoundInterestCalculator() {
   const [principal, setPrincipal] = useState('');
   const [rate, setRate] = useState('');
   const [time, setTime] = useState('');
-  const [contributionFrequency, setContributionFrequency] = useState('monthly');
+  const [compoundFrequency, setCompoundFrequency] = useState('annually');
   const [monthlyContribution, setMonthlyContribution] = useState('');
   const [result, setResult] = useState('');
   const [chartData, setChartData] = useState(null);
 
+  useEffect(() => {
+    const calculatorTitle = document.querySelector('.calculator-title');
+    if (calculatorTitle) {
+      calculatorTitle.classList.add('animate__animated', 'animate__fadeInUp');
+    }
+  }, []);
+
   const calculateInterest = () => {
-    const compoundFrequency = getCompoundFrequency(contributionFrequency);
-    const totalPeriods = time * compoundFrequency;
-    const interestRatePerPeriod = rate / 100 / compoundFrequency;
+    const totalPeriods = time * getCompoundFrequency(compoundFrequency);
+    const interestRatePerPeriod = rate / 100 / getCompoundFrequency(compoundFrequency);
 
     let amount = parseFloat(principal);
     let totalContributed = parseFloat(principal);
     let totalInterest = 0;
 
+    const contributionPerPeriod = monthlyContribution;
+
     for (let i = 0; i < totalPeriods; i++) {
-      amount = amount * (1 + interestRatePerPeriod) + monthlyContribution;
-      totalContributed += monthlyContribution;
+      amount += contributionPerPeriod;
+      totalContributed += contributionPerPeriod;
+
+      amount = amount * (1 + interestRatePerPeriod);
       totalInterest = amount - totalContributed;
     }
 
@@ -99,20 +112,21 @@ function CompoundInterestCalculator() {
           />
         </div>
         <div className="form-group">
-          <label>How often will you contribute?</label>
-          <Select
-            options={[
-              { value: 'monthly', label: 'Once per month' },
-              { value: 'quarterly', label: 'Once per quarter' },
-              { value: 'annually', label: 'Once per year' },
-            ]}
-            onChange={(selectedOption) =>
-              setContributionFrequency(selectedOption.value)
+          <label>Monthly Contribution:</label>
+          <input
+            type="number"
+            placeholder="Monthly Contribution"
+            value={monthlyContribution}
+            onChange={(e) =>
+              setMonthlyContribution(parseFloat(e.target.value))
             }
           />
         </div>
         <div className="form-group">
-          <label>How often will your interest compound?</label>
+          <label>
+            How often will your interest compound?{' '}
+            <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+          </label>
           <Select
             options={[
               { value: 'monthly', label: 'Monthly' },
@@ -120,17 +134,8 @@ function CompoundInterestCalculator() {
               { value: 'annually', label: 'Annually' },
             ]}
             onChange={(selectedOption) =>
-              console.log(selectedOption)
+              setCompoundFrequency(selectedOption.value)
             }
-          />
-        </div>
-        <div className="form-group">
-          <label>Monthly Contribution:</label>
-          <input
-            type="number"
-            placeholder="Monthly Contribution"
-            value={monthlyContribution}
-            onChange={(e) => setMonthlyContribution(parseFloat(e.target.value))}
           />
         </div>
         <div className="button-container">
@@ -139,12 +144,14 @@ function CompoundInterestCalculator() {
           </button>
         </div>
       </div>
-      
+
       <div className="chart-container">
-      {result && (
+        {result && (
           <div className="result-container">
             <p className="result">Your estimated savings: {result.savings}</p>
-            <p className="result">Total amount contributed: {result.contributed}</p>
+            <p className="result">
+              Total amount contributed: {result.contributed}
+            </p>
             <p className="result">Total interest: {result.interest}</p>
           </div>
         )}
@@ -177,10 +184,20 @@ function CompoundInterestCalculator() {
                     },
                   },
                 },
+                plugins: {
+                  tooltip: {
+                    enabled: true,
+                    intersect: false,
+                    mode: 'nearest',
+                  },
+                },
               }}
             />
           </React.Fragment>
         )}
+      </div>
+      <div className="logo-container">
+        <img src={logoImage} alt="Logo" className="logo-image" />
       </div>
     </div>
   );
