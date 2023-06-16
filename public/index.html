@@ -1,75 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Compound Interest Calculator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
-    <style>
-      /* Add your custom styles here */
-      body {
-        font-family: 'Montserrat', sans-serif;
-        margin: 0;
-        padding: 0;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Interest Calculator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    /* Add your custom styles here */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-      .compound-interest-calculator {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+    .compound-interest-calculator {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-      .calculator-title {
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 30px;
-      }
+    .calculator-title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s;
+    }
 
-      .calculator-heading {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 15px;
-      }
+    .calculator-heading {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
 
-      .form-group {
-        margin-bottom: 20px;
-      }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-      label {
-        display: block;
-        margin-bottom: 5px;
-      }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
 
-      .button-container {
-        text-align: center;
-      }
+    .button-container {
+      text-align: center;
+    }
 
-      .calculate-button {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-      }
+    .calculate-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-      .result-container {
-        margin-top: 0px;
-      }
+    .calculate-button:hover {
+      background-color: #0056b3;
+    }
 
-      .result {
-        font-size: 15px;
-        margin-bottom: 5px;
-      }
+    .result-container {
+      margin-top: 0px;
+    }
 
-      .chart-container {
-        margin-top: 50px;
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+    .result {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .chart-container {
+      margin-top: 55px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .chart-container.show {
+      opacity: 1;
+    }
+
+    /* Styles for icons and images */
+    .heart-icon {
+      color: red;
+      font-size: 20px;
+    }
+
+    .logo-image {
+      width: 100px;
+      height: auto;
+    }
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      var chartContainer = document.querySelector('.chart-container');
+      chartContainer.classList.add('show');
+    });
+  </script>
+</head>
+<body>
+  <div id="root">
+    <div class="compound-interest-calculator">
+
+
+    </div>
+  </div>
+</body>
 </html>

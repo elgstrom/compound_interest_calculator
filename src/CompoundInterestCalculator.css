@@ -1,19 +1,4 @@
-.container {
-    width: 100vw;
-    height: 100vh;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f5f5f5;
-  }
-  
-  .calculator-heading {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
+.form-group {
     margin-bottom: 20px;
   }
   
@@ -53,7 +38,7 @@
     display: flex;
     gap: 20px;
     max-width: 2000px;
-    padding: 20px;
+    padding: 30px;
     background-color: #f7f7f7;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -75,6 +60,7 @@
   .chart-container canvas {
     max-width: 100%;
     max-height: 400px;
+    
   }
   
   /* Additional styles for result visibility */
@@ -82,7 +68,7 @@
     position: absolute;
     top: 0;
     left: 20;
-    margin-top: 50px;
+    margin-top: 40px;
     padding-top: 0px;
     border: 1px solid #ccc;
     border-radius: 4px;
