@@ -33,7 +33,7 @@
   .result {
     text-align: center;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .button-container {
@@ -52,7 +52,7 @@
   .compound-interest-calculator {
     display: flex;
     gap: 20px;
-    max-width: 1000px;
+    max-width: 2000px;
     padding: 20px;
     background-color: #f7f7f7;
     border: 1px solid #ccc;
@@ -76,5 +76,18 @@
     max-width: 100%;
     max-height: 400px;
   }
-
+  
+  /* Additional styles for result visibility */
+  .result-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f3f3f3;
+  }
+  
+  .result-container p {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
   
