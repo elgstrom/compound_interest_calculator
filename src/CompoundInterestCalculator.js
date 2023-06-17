@@ -14,6 +14,7 @@ function CompoundInterestCalculator() {
   const [chartData, setChartData] = useState(null);
   const [themeMode, setThemeMode] = useState('light');
 
+
   useEffect(() => {
     const calculatorTitle = document.querySelector('.calculator-title');
     if (calculatorTitle) {
@@ -32,7 +33,7 @@ function CompoundInterestCalculator() {
 
     const cleanValue = value.replace(/[^0-9.]/g, '');
     const [integerPart, decimalPart] = cleanValue.split('.');
-    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const formattedIntegerPart = integerPart.replace(/,/g, '');
     let formattedValue = formattedIntegerPart;
     if (decimalPart) {
       formattedValue += `.${decimalPart}`;
@@ -80,6 +81,7 @@ function CompoundInterestCalculator() {
         },
       ],
     };
+    
 
     setChartData(chartData);
 
@@ -87,13 +89,13 @@ function CompoundInterestCalculator() {
       savings: '$' + formatNumber(chartData.datasets[0].data[parseFloat(time) - 1]),
       contributed: '$' + formatNumber(totalContributed),
       interest: '$' + formatNumber(totalInterest.toFixed(2)),
-    });
+      totalSavings: '$' + formatNumber((parseFloat(totalInterest.toFixed(2)) + parseFloat(totalContributed.toFixed(2))).toFixed(2))
+    });    
   }, [principal, rate, time, monthlyContribution]);
 
   useEffect(() => {
     calculateInterest();
   }, [calculateInterest]);
-
   return (
     <div className={`compound-interest-calculator ${themeMode === 'dark' ? 'dark-mode' : ''}`}>
       <div className="input-container">
@@ -108,7 +110,7 @@ function CompoundInterestCalculator() {
           />
         </div>
         <div className="form-group">
-          <label>Interest Rate (%):</label>
+          <label>What's your rate of return? (%):</label>
           <input
             type="text"
             placeholder="Interest Rate"
@@ -144,11 +146,12 @@ function CompoundInterestCalculator() {
       <div className="chart-container">
         {result && (
           <div className="result-container">
-            <p className="result">Your estimated savings: {result.savings}</p>
-            <p className="result">Total amount contributed: {result.contributed}</p>
-            <p className="result">Total interest: {result.interest}</p>
+          <p className="result">Total estimated savings: {(result.totalSavings)}</p>
+          <p className="result">Total amount contributed: {"$"+(monthlyContribution*12)*time}</p>
+          <p className="result">Total interest: {result && result.interest}</p>
           </div>
         )}
+        
         {chartData && (
           <React.Fragment>
             <Line
