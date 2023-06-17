@@ -1,82 +1,145 @@
 .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .result {
-    text-align: center;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .button-container {
-    text-align: center;
-  }
-  
-  .calculate-button {
-    padding: 10px 30px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .compound-interest-calculator {
-    display: flex;
-    gap: 20px;
-    max-width: 2000px;
-    padding: 30px;
-    background-color: #f7f7f7;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .input-container {
-    flex-basis: 50%;
-    padding-right: 2rem;
-  }
-  
-  .chart-container {
-    flex-basis: 100%;
-    padding-left: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .chart-container canvas {
-    max-width: 100%;
-    max-height: 400px;
-    
-  }
-  
-  /* Additional styles for result visibility */
-  .result-container {
-    position: absolute;
-    top: 0;
-    left: 20;
-    margin-top: 40px;
-    padding-top: 0px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f3f3f3;
-  }
-  
-  .result-container p {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.result {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.button-container {
+  text-align: center;
+}
+
+.calculate-button {
+  padding: 10px 30px;
+  background: linear-gradient(45deg, #007bff, #00bcd4);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.calculate-button:hover {
+  background: linear-gradient(45deg, #00bcd4, #007bff);
+}
+
+.compound-interest-calculator {
+  display: flex;
+  gap: 20px;
+  max-width: 2000px;
+  padding: 30px;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-container {
+  flex-basis: 50%;
+  padding-right: 2rem;
+}
+
+.chart-container {
+  flex-basis: 100%;
+  padding-left: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  max-height: 400px;
+}
+
+/* Additional styles for result visibility */
+.result-container {
+  position: absolute;
+  top: 0;
+  left: 20;
+  margin-top: 10px;
+  padding-top: 0px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.result-container p {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Dark mode styles */
+.dark-mode {
+  background-color: #222;
+  color: #fff;
+}
+
+.dark-mode .compound-interest-calculator {
+  border-color: #444;
+  background-color: #333;
+}
+
+.dark-mode .form-group label {
+  color: #fff;
+}
+
+.dark-mode .form-group input {
+  background-color: #555;
+  color: #fff;
+  border-color: #555;
+}
+
+.dark-mode .result {
+  color: #fff;
+}
+
+.dark-mode .calculate-button {
+  background-color: #00bcd4;
+}
+
+.dark-mode .result-container {
+  border-color: #555;
+  background-color: #222;
+}
+
+/* Dark mode button styles */
+.theme-toggle-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-button.light-mode {
+  transform: rotate(0deg);
+}
+
+.theme-toggle-button.dark-mode {
+  transform: rotate(180deg);
+}
