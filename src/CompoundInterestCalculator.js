@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import './CompoundInterestCalculator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import logoImage from './logo.jpg';
 
 function CompoundInterestCalculator() {
@@ -40,7 +40,7 @@ function CompoundInterestCalculator() {
     return formattedValue;
   };
 
-  const calculateInterest = () => {
+  const calculateInterest = useCallback(() => {
     const totalPeriods = parseFloat(time);
     const interestRatePerPeriod = parseFloat(rate) / 100;
 
@@ -88,11 +88,11 @@ function CompoundInterestCalculator() {
       contributed: '$' + formatNumber(totalContributed),
       interest: '$' + formatNumber(totalInterest.toFixed(2)),
     });
-  };
+  }, [principal, rate, time, monthlyContribution]);
 
   useEffect(() => {
     calculateInterest();
-  }, []);
+  }, [calculateInterest]);
 
   return (
     <div className={`compound-interest-calculator ${themeMode === 'dark' ? 'dark-mode' : ''}`}>
