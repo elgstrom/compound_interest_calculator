@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import './CompoundInterestCalculator.css';
-import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import logoImage from './logo.jpg';
 
 function CompoundInterestCalculator() {
   const [principal, setPrincipal] = useState('');
   const [rate, setRate] = useState('');
   const [time, setTime] = useState('');
-  const [compoundFrequency, setCompoundFrequency] = useState('annually');
   const [monthlyContribution, setMonthlyContribution] = useState('');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [themeMode, setThemeMode] = useState('light');
 
   useEffect(() => {
     const calculatorTitle = document.querySelector('.calculator-title');
@@ -22,33 +21,59 @@ function CompoundInterestCalculator() {
     }
   }, []);
 
+  const toggleThemeMode = () => {
+    setThemeMode(themeMode === 'light' ? 'dark' : 'light');
+  };
+
+  const formatNumber = (value) => {
+    if (typeof value !== 'string') {
+      return '';
+    }
+
+    const cleanValue = value.replace(/[^0-9.]/g, '');
+    const [integerPart, decimalPart] = cleanValue.split('.');
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    let formattedValue = formattedIntegerPart;
+    if (decimalPart) {
+      formattedValue += `.${decimalPart}`;
+    }
+    return formattedValue;
+  };
+
   const calculateInterest = () => {
-    const totalPeriods = time * getCompoundFrequency(compoundFrequency);
-    const interestRatePerPeriod = rate / 100 / getCompoundFrequency(compoundFrequency);
+    const totalPeriods = parseFloat(time);
+    const interestRatePerPeriod = parseFloat(rate) / 100;
 
     let amount = parseFloat(principal);
     let totalContributed = parseFloat(principal);
     let totalInterest = 0;
 
-    const contributionPerPeriod = monthlyContribution;
+    const contributionPerPeriod = parseFloat(monthlyContribution);
+    const contributionPeriods = 12;
 
     for (let i = 0; i < totalPeriods; i++) {
-      amount += contributionPerPeriod;
-      totalContributed += contributionPerPeriod;
+      if ((i + 1) % contributionPeriods === 0) {
+        amount += contributionPerPeriod;
+        totalContributed += contributionPerPeriod;
+      }
 
-      amount = amount * (1 + interestRatePerPeriod);
+      amount = (amount + contributionPerPeriod) * (1 + interestRatePerPeriod);
       totalInterest = amount - totalContributed;
     }
 
-    // Generate the data for the chart
     const chartData = {
-      labels: Array.from({ length: time }, (_, i) => i + 1),
+      labels: Array.from({ length: parseFloat(time) }, (_, i) => i + 1),
       datasets: [
         {
           label: 'Compound Interest',
-          data: Array.from({ length: time }, (_, i) =>
-            (principal * Math.pow(1 + interestRatePerPeriod, i + 1)).toFixed(2)
-          ),
+          data: Array.from({ length: parseFloat(time) }, (_, i) => {
+            const balance =
+              parseFloat(principal) +
+              contributionPerPeriod *
+                contributionPeriods *
+                ((Math.pow(1 + interestRatePerPeriod, i + 1) - 1) / interestRatePerPeriod);
+            return parseFloat(balance.toFixed(2));
+          }),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1,
@@ -56,86 +81,57 @@ function CompoundInterestCalculator() {
       ],
     };
 
-    // Update the chartData state
     setChartData(chartData);
 
-    // Update the result state
     setResult({
-      savings: '$' + amount.toFixed(1),
-      contributed: '$' + totalContributed.toFixed(1),
-      interest: '$' + totalInterest.toFixed(1),
+      savings: '$' + formatNumber(chartData.datasets[0].data[parseFloat(time) - 1]),
+      contributed: '$' + formatNumber(totalContributed),
+      interest: '$' + formatNumber(totalInterest.toFixed(2)),
     });
   };
 
-  const getCompoundFrequency = (frequency) => {
-    switch (frequency) {
-      case 'monthly':
-        return 12;
-      case 'quarterly':
-        return 4;
-      case 'annually':
-        return 1;
-      default:
-        return 1;
-    }
-  };
+  useEffect(() => {
+    calculateInterest();
+  }, []);
 
   return (
-    <div className="compound-interest-calculator">
+    <div className={`compound-interest-calculator ${themeMode === 'dark' ? 'dark-mode' : ''}`}>
       <div className="input-container">
         <h2 className="calculator-title">Compound Interest Calculator</h2>
         <div className="form-group">
           <label>Principal Amount:</label>
           <input
-            type="number"
+            type="text"
             placeholder="Principal Amount"
             value={principal}
-            onChange={(e) => setPrincipal(parseFloat(e.target.value))}
+            onChange={(e) => setPrincipal(formatNumber(e.target.value))}
           />
         </div>
         <div className="form-group">
           <label>Interest Rate (%):</label>
           <input
-            type="number"
+            type="text"
             placeholder="Interest Rate"
             value={rate}
-            onChange={(e) => setRate(parseFloat(e.target.value))}
+            onChange={(e) => setRate(formatNumber(e.target.value))}
           />
         </div>
         <div className="form-group">
           <label>Time (in years):</label>
           <input
-            type="number"
+            type="text"
             placeholder="Time (in years)"
             value={time}
-            onChange={(e) => setTime(parseFloat(e.target.value))}
+            onChange={(e) => setTime(formatNumber(e.target.value))}
           />
         </div>
         <div className="form-group">
           <label>Monthly Contribution:</label>
           <input
-            type="number"
+            type="text"
             placeholder="Monthly Contribution"
             value={monthlyContribution}
-            onChange={(e) =>
-              setMonthlyContribution(parseFloat(e.target.value))
-            }
-          />
-        </div>
-        <div className="form-group">
-          <label>
-            How often will your interest compound?{' '}
-            <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-          </label>
-          <Select
-            options={[
-              { value: 'monthly', label: 'Monthly' },
-              { value: 'quarterly', label: 'Quarterly' },
-              { value: 'annually', label: 'Annually' },
-            ]}
-            onChange={(selectedOption) =>
-              setCompoundFrequency(selectedOption.value)
-            }
+            onChange={(e) => setMonthlyContribution(formatNumber(e.target.value))}
           />
         </div>
         <div className="button-container">
@@ -149,9 +145,7 @@ function CompoundInterestCalculator() {
         {result && (
           <div className="result-container">
             <p className="result">Your estimated savings: {result.savings}</p>
-            <p className="result">
-              Total amount contributed: {result.contributed}
-            </p>
+            <p className="result">Total amount contributed: {result.contributed}</p>
             <p className="result">Total interest: {result.interest}</p>
           </div>
         )}
@@ -199,6 +193,14 @@ function CompoundInterestCalculator() {
       <div className="logo-container">
         <img src={logoImage} alt="Logo" className="logo-image" />
       </div>
+
+      <button className={`theme-toggle-button ${themeMode === 'light' ? 'light-mode' : 'dark-mode'}`} onClick={toggleThemeMode}>
+        {themeMode === 'light' ? (
+          <FontAwesomeIcon icon={faSun} />
+        ) : (
+          <FontAwesomeIcon icon={faMoon} />
+        )}
+      </button>
     </div>
   );
 }
